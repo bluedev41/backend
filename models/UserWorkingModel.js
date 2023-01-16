@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
- 
-const UserWorkingData = mongoose.Schema({
-   users: {
-            tppe: mongoose.Schema.Types.ObjectId, 
-            ref: "Users" 
+
+const userWorkingScama = mongoose.Schema({
+   user_id: {
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: "users" 
           },
    date: {
-        type: String,
+        type: Date,
         required: true
    },
    early: {
@@ -23,4 +23,4 @@ const UserWorkingData = mongoose.Schema({
    }
 });
  
-export default mongoose.model('UserWorkingData', UserWorkingData);
+export default mongoose.model('working_datas', userWorkingScama);

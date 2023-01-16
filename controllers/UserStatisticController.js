@@ -1,27 +1,39 @@
-import UserData from "../models/UserWorkingTime.js";
+import UserData from "../models/UserWorkingModel.js";
  
+/*
+ get employee's working data in a given date range
+*/
+
 export const getUserStatisticById = async (req, res) => {
     try {
-        const user = await UserData.findById(req.params.id).find({
-            data: {
-                $gte: req.body.start,
-                $lt: req.body.end
+        const userdata = await UserData.find({ 
+            user_id: ObjectId(req.body.user_id),
+            date: {
+                $gte: new Date(req.body.start),
+                $lt: new Date(req.body.end)
             }
         });
-        res.json(user);
+        res.json(userdata);
     } catch (error) {
         res.status(404).json({message: error.message});
     }
 }
  
+/*
+ Insert employee's daily working data
+*/
+
 export const saveUserWorkingData = async (req, res) => {
-    const user = new UserData(req.body);
-    try {
-        const inserteduser = await user.save();
-        res.status(201).json(inserteduser);
-    } catch (error) {
-        res.status(400).json({message: error.message});
-    }
+
+    console.log('dd');
+
+    // const userdata = new UserData(req.body);
+    // try {
+    //     const inserted = await userdata.save();
+    //     res.status(201).json(inserted);
+    // } catch (error) {
+    //     res.status(400).json({message: error.message});
+    // }
 }
  
 export const updateUser = async (req, res) => {
