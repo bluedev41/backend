@@ -1,13 +1,14 @@
-import mongoose from "mongoose";
- 
-const userScama = mongoose.Schema({
+import mongoose from "mongoose"; 
+
+const userSchema = mongoose.Schema({
     name:{
         type: String,
         required: true
     },
     email:{
         type: String,
-        required: true
+        required: "john@mail.com",
+        unique: true,
     },
     gender:{
         type: String,
@@ -15,8 +16,10 @@ const userScama = mongoose.Schema({
     },
     password:{
         type: String,
-        required: true
+        required: true,
+        min: 6
     }
 });
- 
-export default mongoose.model('users', userScama);
+
+
+export default mongoose.model('users', userSchema);
