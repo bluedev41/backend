@@ -20,6 +20,8 @@ const aggregate_fuc = function(Schema, start, end, user) {
                 total_early: { $sum: "$early"},
                 total_late: { $sum: "$late"},
                 total_ill: { $sum: "$ill" },
+                working_day: {$sum: "$attendance"},
+                total_absenteeism: {$sum: "$absenteeism"},
                 total_overtime: { $sum: "$overtime" },
                 total_working_time: { $sum: "$working_time" },
             } 
