@@ -1,35 +1,34 @@
 import Formula from "../models/FormulaModel.js";
 
-// const calcualte_salary = function(formula_id, gross){
-    
-// }
-
+/*
+Calculating  salary by formula
+*/
 export const calculate = async (req, res) => {
-
     try {
-        await Formula.findById(req.params.id)
+      const data = await Formula.findById(req.params.id)
             .populate("item.list")
-            .then(data => {
-                var item = data.item;        
-                var sum = 0;
-                for( const index in item){
-                    if(item[index].list.type == "addition"){
-                       sum += item[index].number*(item[index].percent/100 * req.body.gross + item[index].value);
-                    }else{
-                        sum -= item[index].number*(item[index].percent/100 * req.body.gross + item[index].value);
-                    }
-                }
-                sum += data.basic_salary.percent/100*req.body.gross + data.basic_salary.value;
-                res.json(sum);
-            });
+        var item = data.item;        
+        var sum = 0;
+        for( const index in item){
+            if(item[index].list.type == "addition"){
+                sum += item[index].number*(item[index].percent/100 * req.body.gross + item[index].value);
+            }else{
+                sum -= item[index].number*(item[index].percent/100 * req.body.gross + item[index].value);
+            }
+        }
+        sum += data.basic_salary.percent/100*req.body.gross + data.basic_salary.value;
+        res.json(sum);
     } catch (error) {
         res.status(500).json({message: error.message});
     }
 }
 
+/*
+Getting  all formulas
+*/
 export const getFormulas = async (req, res) => {
     try {
-        const formulas = await Formula.find();
+        const formulas = await Formula.find().populate("item.list");
         res.json(formulas);
     } catch (error) {
         res.status(500).json({message: error.message});
@@ -38,12 +37,16 @@ export const getFormulas = async (req, res) => {
  
 export const getFormulaById = async (req, res) => {
     try {
-        const formula = await Formula.findById(req.params.id);
+        const formula = await Formula.findById(req.params.id).populate("item.list");
         res.json(formula);
     } catch (error) {
         res.status(404).json({message: error.message});
     }
 }
+
+/*
+Creating  formula
+*/
  
 export const saveFormula = async (req, res) => {
     const formula = new Formula(req.body);
@@ -54,6 +57,10 @@ export const saveFormula = async (req, res) => {
         res.status(400).json({message: error.message});
     }
 }
+
+/*
+Updating  formula
+*/
  
 export const updateFormula = async (req, res) => {
     try {
@@ -63,6 +70,10 @@ export const updateFormula = async (req, res) => {
         res.status(400).json({message: error.message});
     }
 }
+
+/*
+deleting  formula
+*/
  
 export const deleteFormula = async (req, res) => {
     try {

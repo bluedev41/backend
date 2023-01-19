@@ -1,5 +1,8 @@
 import List from "../models/SalaryListModel.js";
 
+/*
+Getting  all salary lists
+*/
 export const getSalaryLists = async (req, res) => {
     try {
         const lists = await List.find();
@@ -9,6 +12,9 @@ export const getSalaryLists = async (req, res) => {
     }
 }
  
+/*
+Getting  one salary list
+*/
 export const getSalaryListById = async (req, res) => {
     try {
         const list = await List.findById(req.params.id);
@@ -18,6 +24,9 @@ export const getSalaryListById = async (req, res) => {
     }
 }
  
+/*
+Create salary list
+*/
 export const saveSalaryList = async (req, res) => {
     const list = new List(req.body);
     try {
@@ -28,6 +37,9 @@ export const saveSalaryList = async (req, res) => {
     }
 }
  
+/*
+Updating  salary lists
+*/
 export const updateSalaryList = async (req, res) => {
     try {
         const updatedlist = await List.updateOne({_id:req.params.id}, {$set: req.body});
@@ -37,6 +49,9 @@ export const updateSalaryList = async (req, res) => {
     }
 }
  
+/*
+deleting  salary lists
+*/
 export const deleteSalaryList = async (req, res) => {
     try {
         const deletedlist = await List.deleteOne({_id:req.params.id});

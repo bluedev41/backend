@@ -6,27 +6,34 @@ var ObjectId = mongoose.Types.ObjectId;
 */
 
 const aggregate_fuc = function(Schema, start, end, user) {
-    return Schema.aggregate([
-        { $match: { 
-             user_id: ObjectId(user),
+    return Schema.find({
+        user_id: ObjectId(user),
              date: {
                 $gte: new Date(start),
                 $lte: new Date(end)
              }
-        } },
-        { 
-            $group: { 
-                _id: "$user_id",       
-                total_early: { $sum: "$early"},
-                total_late: { $sum: "$late"},
-                total_ill: { $sum: "$ill" },
-                working_day: {$sum: "$attendance"},
-                total_absenteeism: {$sum: "$absenteeism"},
-                total_overtime: { $sum: "$overtime" },
-                total_working_time: { $sum: "$working_time" },
-            } 
-        }
-    ]).exec();
+    }).populate("user_id").exec();
+    // return Schema.aggregate([
+    //     { $match: { 
+    //          user_id: ObjectId(user),
+    //          date: {
+    //             $gte: new Date(start),
+    //             $lte: new Date(end)
+    //          }
+    //     } },
+        // { 
+            // $group: { 
+            //     _id: "$user_id",       
+            //     total_early: { $sum: "$early"},
+            //     total_late: { $sum: "$late"},
+            //     total_ill: { $sum: "$ill" },
+            //     working_day: {$sum: "$attendance"},
+            //     total_absenteeism: {$sum: "$absenteeism"},
+            //     total_overtime: { $sum: "$overtime" },
+            //     total_working_time: { $sum: "$working_time" },
+            // } 
+        // }
+//     ]).exec();
 }
 
 /*
@@ -116,7 +123,7 @@ export const getTotalAggregateById = async (req, res) => {
         let daily_data = [];
         let week_data = [];
 
-        let todaydata = await aggregate_fuc(UserData, today, today, req.params.id);      // aggregated data on today        
+        let todaydata = await aggregate_fuc(UserData, new Date(today), new Date(today), req.params.id);      // aggregated data on today        
 
         for (let i = 0; i < 7; i++) {         
             daily_data[i] = await aggregate_fuc(UserData, addDay(new Date(firstday), i), addDay(new Date(firstday), i), req.params.id ) // aggregated data on each day of this month

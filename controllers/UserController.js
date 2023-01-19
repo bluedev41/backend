@@ -1,5 +1,8 @@
 import User from "../models/UserModel.js";
 
+/*
+Getting all users
+*/
 export const getUsers = async (req, res) => {
     try {
         const users = await User.find();
@@ -9,6 +12,9 @@ export const getUsers = async (req, res) => {
     }
 }
  
+/*
+Getting one users
+*/
 export const getUserById = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
@@ -18,6 +24,9 @@ export const getUserById = async (req, res) => {
     }
 }
  
+/*
+creating users
+*/
 export const saveUser = async (req, res) => {
     const user = new User(req.body);
     try {
@@ -28,6 +37,9 @@ export const saveUser = async (req, res) => {
     }
 }
  
+/*
+Updateing  users
+*/
 export const updateUser = async (req, res) => {
     try {
         const updateduser = await User.updateOne({_id:req.params.id}, {$set: req.body});
@@ -37,6 +49,10 @@ export const updateUser = async (req, res) => {
     }
 }
  
+/*
+deleting  users
+*/
+
 export const deleteUser = async (req, res) => {
     try {
         const deleteduser = await User.deleteOne({_id:req.params.id});
