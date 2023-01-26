@@ -3,9 +3,6 @@ import mongoose from "mongoose";
 const userWorkingSchema = mongoose.Schema({
   /* employee id */   
    user_id: {
-
-     
-
             type: mongoose.Schema.Types.ObjectId, 
             ref: "users" 
           },
